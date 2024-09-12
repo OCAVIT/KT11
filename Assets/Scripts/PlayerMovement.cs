@@ -15,17 +15,16 @@ public class PlayerMovement
         this.jumpForce = jumpForce;
     }
 
-    public void Move(float direction)
+    public void Move(float move)
     {
-        Vector3 movement = rb.transform.forward * direction * moveSpeed * Time.deltaTime;
-        rb.MovePosition(rb.position + movement);
+        Vector3 moveDirection = rb.transform.forward * move;
+        rb.MovePosition(rb.position + moveDirection);
     }
 
-    public void Rotate(float direction)
+    public void Rotate(float rotate)
     {
-        float turn = direction * rotationSpeed * Time.deltaTime;
-        Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
-        rb.MoveRotation(rb.rotation * turnRotation);
+        Quaternion turn = Quaternion.Euler(0f, rotate, 0f);
+        rb.MoveRotation(rb.rotation * turn);
     }
 
     public void Jump()

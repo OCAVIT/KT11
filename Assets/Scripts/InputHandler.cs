@@ -9,27 +9,22 @@ public class InputHandler
         this.invoker = invoker;
     }
 
-    public void HandleInput()
+    public void HandleInput(bool isGrounded)
     {
-        if (Input.GetKey(KeyCode.W))
+        float move = Input.GetAxis("Vertical");
+        float rotate = Input.GetAxis("Horizontal");
+
+        if (move != 0)
         {
-            invoker.ExecuteMove(1f);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            invoker.ExecuteMove(-1f);
+            invoker.ExecuteMove(move);
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (rotate != 0)
         {
-            invoker.ExecuteRotate(-1f);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            invoker.ExecuteRotate(1f);
+            invoker.ExecuteRotate(rotate);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
             invoker.ExecuteJump();
         }

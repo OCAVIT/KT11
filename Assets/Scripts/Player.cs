@@ -2,14 +2,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Rigidbody rb;
-    private PlayerMovement playerMovement;
-    private InputHandler inputHandler;
-    private Invoker invoker;
+    public float moveSpeed = 5f;
+    public float rotationSpeed = 720f;
+    public float jumpForce = 5f;
 
-    public float moveSpeed;
-    public float rotationSpeed;
-    public float jumpForce;
+    private Rigidbody rb;
+    private bool isGrounded;
+    private bool inputEnabled = true;
+
+    private PlayerMovement playerMovement;
+    private Invoker invoker;
+    private InputHandler inputHandler;
 
     void Start()
     {
@@ -21,6 +24,32 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        inputHandler.HandleInput();
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            inputEnabled = !inputEnabled;
+            Debug.Log("Input status changed: " + (inputEnabled ? "Enabled" : "Disabled"));
+        }
+
+        if (inputEnabled)
+        {
+            inputHandler.HandleInput(isGrounded);
+        }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus)
+        {
+            inputEnabled = true;
+            Debug.Log("Input enabled due to focus");
+        }
     }
 }
